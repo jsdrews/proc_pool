@@ -1,5 +1,5 @@
 # proc_pool
-Simple web service to run and manage linux processes remotely.
+Simple web service to run and manage linux processes remotely. Number of concurrent processes can be set via the config (example below). 
 
 ----------------------------------------
 
