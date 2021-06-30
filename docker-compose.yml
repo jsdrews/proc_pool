@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+    nginx:
+      image: nginx:latest
+      container_name: proc_pool_nginx
+      privileged: true
+      volumes:
+        - ./nginx/conf.d:/etc/nginx/conf.d
+        - shared-data:/var/shared
+        - log-data:/var/log/proc_pool
+      ports:
+        - "80:80"
+      networks:
+        - network
+
+    mongo:
+      image: mongo:latest
+      container_name: proc_pool_mongo
+      privileged: true
+      hostname: proc_pool_mongo
+      volumes:
+        - ./mongo/mongod.conf:/etc/mongod.conf
+        - mongo-data:/data/db
+        - log-data:/var/log/proc_pool
+      expose:
+        - "27017"
+      command: [ "-f",  "/etc/mongod.conf"]
+      env_file:
+        - ./mongo/mongo-init.env
+      networks:
+        - network
+
+    proc_pool_rest_api:
+      build: python
+      image: proc_pool_python
+      container_name: proc_pool_rest_api
+      privileged: true
+      volumes:
+        - ./python/app:/app
+        - log-data:/var/log/proc_pool
+        - shared-data:/var/shared
+      networks:
+        - network
+
+    proc_run:
+      image: proc_pool_python
+      container_name: proc_pool_proc_run
+      privileged: true
+      depends_on: 
+        - proc_pool_rest_api
+      entrypoint: ["/app/proc_run.py"]
+      volumes:
+        - ./python/app:/app
+        - log-data:/var/log/proc_pool
+        - shared-data:/var/shared
+      networks:
+        - network
+
+networks:
+  network:
+
+volumes:
+  shared-data:
+  mongo-data:
+  log-data:

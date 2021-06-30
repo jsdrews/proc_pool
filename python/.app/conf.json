@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "default",
+    "type": "service",
+    "shared_data": "/var/shared",
+    "db": {
+      "name": "{app_name}_{app_type}",
+      "url": "mongodb://127.0.0.1:27017"
+    },
+    "log": {
+      "path": "{app_shared_data}/{app_name}.log",
+      "level": "debug"
+    },
+    "views": {
+      "hello": {"endpoint": "/", "methods":  ["GET"]},
+      "host": {"endpoint": "/host", "methods":  ["GET"]},
+      "root": {"endpoint": "/root", "methods":  ["GET"]},
+      "app_config": {"endpoint": "/config", "methods":  ["GET"]},
+      "app_config_uwsgi": {"endpoint": "/config/uwsgi", "methods":  ["GET"]},
+      "app_endpoints": {"endpoint": "/endpoints", "methods":  ["GET"]},
+      "app_log": {"endpoint": "/log", "methods":  ["GET"]},
+      "app_log_uwsgi": {"endpoint": "/log/uwsgi", "methods":  ["GET"]},
+      "app_log_nginx_access": {"endpoint": "/log/nginx/access", "methods":  ["GET"]},
+      "app_log_nginx_error": {"endpoint": "/log/nginx/error", "methods":  ["GET"]}
+    }
+  }
+}

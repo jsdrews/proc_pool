@@ -1,0 +1,52 @@
+{
+  "startup": {
+    "db": {"url": "mongodb://root:1234@proc_pool_mongo:27017", "name": "proc_pool"},
+    "concurrency": 10,
+    "log": {
+      "path": "/var/log/proc_pool/proc_pool.log",
+      "level": "debug"
+    }
+  },
+  "runtime": {
+    "task": {
+      "formattable_fields": [],
+      "extra_fields": [],
+      "log": "/var/log/proc_pool/{date}/{name}.log",
+      "states": {
+        "complete": ["complete", "killed", "failed", "finished", "timed-out", "errored"],
+        "in_progress": ["processing", "fetched", "paused"],
+        "queued": ["created", "inserted"],
+        "errored": ["killed", "failed", "finished", "timed-out", "errored"],
+        "running": ["processing"]
+      },
+      "actions": {
+        "pause": [-19, "paused"],
+        "resume": [-18, "processing"],
+        "kill": [-9, "killed"]
+      },
+      "finished_task_log": "/var/log/proc_pool/proc_pool.finished"
+    },
+    "app": {
+      "endpoints": {
+        "tasks": "/tasks",
+        "tasks_add": "/tasks/add",
+        "tasks_queued": "/tasks/queued",
+        "tasks_running": "/tasks/in_progress",
+        "task": "/task/<string:oid>",
+        "task_log": "/task/<string:oid>/log",
+        "task_update": "/task/<string:oid>/update",
+        "task_interact": "/task/<string:oid>/interact",
+        "tasks_query": "/tasks/query",
+        "tasks_update": "/tasks/update",
+        "help_statuses": "/help/states",
+        "help_in_progress": "/help/states/in_progress",
+        "help_complete": "/help/states/complete",
+        "help_endpoints": "/help/endpoints",
+        "config": "/config",
+        "logs_app": "/logs/app",
+        "logs_uwsgi": "/logs/uwsgi",
+        "logs_emporer": "/logs/emporer"
+      }
+    }
+  }
+}

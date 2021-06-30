@@ -1,0 +1,5 @@
+flask
+uwsgi
+pymongo
+flask-cors
+flask_pymongo
